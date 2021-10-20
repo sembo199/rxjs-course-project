@@ -1,30 +1,42 @@
 /** SECTION 3 */
 
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 
-const observable$ = new Observable<string>(subscriber => {
+const observable$ = new Observable<number>(subscriber => {
   console.log("Observable executed");
-  subscriber.next('Alice');
-  subscriber.next('Ben');
-  setTimeout(() => {
-    subscriber.error(new Error("Error notification called"));
+  let i = 1;
+  const interval = setInterval(() => {
+    console.log("Emit " , i);
+    subscriber.next(i++);
   }, 2000);
-  setTimeout(() => {
-    subscriber.next('Charlie')
-    subscriber.complete();
-  }, 4000);
+  // setTimeout(() => {
+  //   subscriber.complete();
+  // }, 7000);
+  // subscriber.next('Alice');
+  // setTimeout(() => {
+  //   subscriber.next('Ben');
+  //   // subscriber.error(new Error("Error notification called"));
+  // }, 2000);
+  // setTimeout(() => {
+  //   subscriber.next('Charlie')
+  //   subscriber.complete();
+  // }, 4000);
 
   return () => {
+    clearInterval(interval);
     console.log('Teardown');
   };
 });
 console.log("Before subscribe");
-observable$.subscribe({ 
+const subscription: Subscription = observable$.subscribe({ 
   next: value => console.log(value),
   error: error => console.error(error.message),
   complete: () => console.log("Completed")
 });
 console.log("After subscribe");
+setTimeout(() => {
+  subscription.unsubscribe();
+}, 7000);
 
 
 /** SECTION 2 */
