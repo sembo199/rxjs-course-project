@@ -11,10 +11,10 @@ import {
 //   value => console.log(value)
 // );
 
-storeDataOnServerError('Some value').subscribe({
-  next: value => console.log(value),
-  error: error => console.log('Error whens saving:', error.message)
-});
+// storeDataOnServerError('Some value').subscribe({
+//   next: value => console.log(value),
+//   error: error => console.log('Error whens saving:', error.message)
+// });
 
 // Observable, Observer and Subscription
 
@@ -39,8 +39,16 @@ const observable$ = new Observable<string>(subscriber => {
 //   next: (value: string) => console.log(value)
 // });
 
-const subscription = observable$.subscribe((value: string) => console.log(value));
+// const subscription = observable$.subscribe((value: string) => console.log(value));
+// setTimeout(() => {
+//   console.log("Unsubscribe");
+//   subscription.unsubscribe();
+// }, 3000);
+
+console.log('Subscription 1 starts');
+observable$.subscribe((value: string) => console.log("Subscription 1: " + value));
+
 setTimeout(() => {
-  console.log("Unsubscribe");
-  subscription.unsubscribe();
-}, 3000);
+  console.log('Subscription 2 starts');
+  observable$.subscribe((value: string) => console.log("Subscription 2: " + value));
+}, 1000);
