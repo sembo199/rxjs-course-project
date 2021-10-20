@@ -7,11 +7,11 @@ const observable$ = new Observable<string>(subscriber => {
   subscriber.next('Alice');
   subscriber.next('Ben');
   setTimeout(() => {
-    subscriber.next('Charlie')
-    // subscriber.complete();
+    subscriber.error(new Error("Error notification called"));
   }, 2000);
   setTimeout(() => {
-    subscriber.error(new Error("Error notification called"));
+    subscriber.next('Charlie')
+    subscriber.complete();
   }, 4000);
 
   return () => {
