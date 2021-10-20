@@ -1,5 +1,6 @@
 /** SECTION 4 */
 
+import { Observable } from 'rxjs';
 import {ajax} from 'rxjs/ajax';
 
 const ajax$ = ajax<any>('https://random-data-api.com/api/name/random_name');
@@ -7,6 +8,20 @@ const ajax$ = ajax<any>('https://random-data-api.com/api/name/random_name');
 ajax$.subscribe(data => console.log("Sub 1: ", data.response.first_name));
 ajax$.subscribe(data => console.log("Sub 2: ", data.response.first_name));
 ajax$.subscribe(data => console.log("Sub 3: ", data.response.first_name));
+
+const helloButton = document.querySelector<any>('button#hello');
+const helloClick$ = new Observable(subscriber => {
+  helloButton.addEventListener('click', (event: MouseEvent) => {
+    subscriber.next(event);
+  });
+});
+
+// Hot event: same data emitted to all subscriptions
+helloClick$.subscribe((event: any) => console.log("Sub 1:",event.type, event.x, event.y));
+setTimeout(() => {
+  console.log('Subscription 2 started');
+  helloClick$.subscribe((event: any) => console.log("Sub 2:",event.type, event.x, event.y));
+}, 5000);
 
 /** SECTION 3 */
 
