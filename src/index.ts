@@ -1,14 +1,18 @@
+/** SECTION 4 */
+
+
+
 /** SECTION 3 */
 
-import { Observable, Subscription } from "rxjs";
+// import { Observable, Subscription } from "rxjs";
 
-const observable$ = new Observable<number>(subscriber => {
-  console.log("Observable executed");
-  let i = 1;
-  const interval = setInterval(() => {
-    console.log("Emit " , i);
-    subscriber.next(i++);
-  }, 2000);
+// const observable$ = new Observable<number>(subscriber => {
+//   console.log("Observable executed");
+//   let i = 1;
+//   const interval = setInterval(() => {
+//     console.log("Emit " , i);
+//     subscriber.next(i++);
+//   }, 2000);
   // setTimeout(() => {
   //   subscriber.complete();
   // }, 7000);
@@ -22,21 +26,21 @@ const observable$ = new Observable<number>(subscriber => {
   //   subscriber.complete();
   // }, 4000);
 
-  return () => {
-    clearInterval(interval);
-    console.log('Teardown');
-  };
-});
-console.log("Before subscribe");
-const subscription: Subscription = observable$.subscribe({ 
-  next: value => console.log(value),
-  error: error => console.error(error.message),
-  complete: () => console.log("Completed")
-});
-console.log("After subscribe");
-setTimeout(() => {
-  subscription.unsubscribe();
-}, 7000);
+//   return () => {
+//     clearInterval(interval);
+//     console.log('Teardown');
+//   };
+// });
+// console.log("Before subscribe");
+// const subscription: Subscription = observable$.subscribe({ 
+//   next: value => console.log(value),
+//   error: error => console.error(error.message),
+//   complete: () => console.log("Completed")
+// });
+// console.log("After subscribe");
+// setTimeout(() => {
+//   subscription.unsubscribe();
+// }, 7000);
 
 
 /** SECTION 2 */
