@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import {
   name$,
   storeDataOnServer,
@@ -14,3 +15,32 @@ storeDataOnServerError('Some value').subscribe({
   next: value => console.log(value),
   error: error => console.log('Error whens saving:', error.message)
 });
+
+// Observable, Observer and Subscription
+
+const observable$ = new Observable<string>(subscriber => {
+  console.log('Observable executed');
+  subscriber.next('Alice');
+  setTimeout(() => {
+    subscriber.next('Ben');
+  }, 2000);
+  setTimeout(() => {
+    subscriber.next('Charlie');
+  }, 4000);
+});
+
+// const observer = {
+//   next: (value: string) => console.log(value)
+// };
+
+// observable$.subscribe(observer);
+
+// observable$.subscribe({
+//   next: (value: string) => console.log(value)
+// });
+
+const subscription = observable$.subscribe((value: string) => console.log(value));
+setTimeout(() => {
+  console.log("Unsubscribe");
+  subscription.unsubscribe();
+}, 3000);
