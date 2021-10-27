@@ -1,32 +1,59 @@
 /** SECTION 5 */
 
-/** TIMER */
+/** INTERVAL */
 
-import { Observable, timer } from "rxjs";
+import { interval, Observable } from "rxjs";
 
-console.log("App started");
-
-const timer$ = new Observable<number>(subscriber => {
-  const timeout = setTimeout(() => {
-    console.log('Timeout!');
-    subscriber.next(0);
-    subscriber.complete();
-  }, 2000);
+const interval$ = new Observable<number>(subscriber => {
+  let counter = 0;
+  
+  const intervalId = setInterval(() => {
+    console.log("Interval!");
+    subscriber.next(counter++);
+  }, 1000);
 
   return () => {
-    clearTimeout(timeout);
+    clearInterval(intervalId);
   }
-})
+});
 
-const sub = timer$.subscribe({
+const sub = interval$.subscribe({
   next: value => console.log(value),
-  complete: () => console.log("Completed")
-})
+  complete: () => console.log('Completed')
+});
 
 setTimeout(() => {
   sub.unsubscribe();
   console.log("Unsub");
-}, 1000);
+}, 5000);
+
+/** TIMER */
+
+// import { Observable, timer } from "rxjs";
+
+// console.log("App started");
+
+// const timer$ = new Observable<number>(subscriber => {
+//   const timeout = setTimeout(() => {
+//     console.log('Timeout!');
+//     subscriber.next(0);
+//     subscriber.complete();
+//   }, 2000);
+
+//   return () => {
+//     clearTimeout(timeout);
+//   }
+// })
+
+// const sub = timer$.subscribe({
+//   next: value => console.log(value),
+//   complete: () => console.log("Completed")
+// })
+
+// setTimeout(() => {
+//   sub.unsubscribe();
+//   console.log("Unsub");
+// }, 1000);
 
 /** FROMEVENT */
 
