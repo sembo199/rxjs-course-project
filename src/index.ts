@@ -1,36 +1,64 @@
 /** SECTION 5 */
 
+/** TIMER */
+
+import { Observable, timer } from "rxjs";
+
+console.log("App started");
+
+const timer$ = new Observable<number>(subscriber => {
+  const timeout = setTimeout(() => {
+    console.log('Timeout!');
+    subscriber.next(0);
+    subscriber.complete();
+  }, 2000);
+
+  return () => {
+    clearTimeout(timeout);
+  }
+})
+
+const sub = timer$.subscribe({
+  next: value => console.log(value),
+  complete: () => console.log("Completed")
+})
+
+setTimeout(() => {
+  sub.unsubscribe();
+  console.log("Unsub");
+}, 1000);
+
 /** FROMEVENT */
 
-import { fromEvent, Observable } from "rxjs";
+// import { fromEvent, Observable } from "rxjs";
 
-const triggerButton = document.querySelector('button#trigger');
+// const triggerButton = document.querySelector('button#trigger');
 
 // const subscription = fromEvent<PointerEvent>(triggerButton, 'click').subscribe(event => {
 //   console.log(event.type, event.x, event.y);
 // });
 
-const triggerClick$ = new Observable(subscriber => {
-  const clickHandlerFn = (event: any) => {
-    console.log('Event callback executed');
-    subscriber.next(event);
-  };
+// const triggerClick$ = new Observable(subscriber => {
+//   const clickHandlerFn = (event: any) => {
+//     console.log('Event callback executed');
+//     subscriber.next(event);
+//   };
 
-  triggerButton?.addEventListener('click', clickHandlerFn);
+//   triggerButton?.addEventListener('click', clickHandlerFn);
 
-  return () => {
-    triggerButton?.removeEventListener('click', clickHandlerFn);
-  }
-});
+//   return () => {
+//     triggerButton?.removeEventListener('click', clickHandlerFn);
+//   }
+// });
 
-const subscription = triggerClick$.subscribe({
-  next: event => console.log(event.type, event.x, event.y)
-});
+// const subscription = triggerClick$.subscribe({
+//   next: event => console.log(event.type, event.x, event.y)
+// });
 
-setTimeout(() => {
-  console.log("unsubscribe");
-  subscription.unsubscribe();
-}, 5000);
+// setTimeout(() => {
+//   console.log("unsubscribe");
+//   subscription.unsubscribe();
+// }, 5000);
 
 /** FROM */
 
