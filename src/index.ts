@@ -1,32 +1,36 @@
-/** SECTION 5 */
+/** SECTION 6 */
 
-import { combineLatest, fromEvent } from "rxjs";
+
+
+/** SECTION 5 */
 
 /** COMBINELATEST */
 
-const temperatureInput = document.getElementById('temperature-input');
-const conversionDropdown = document.getElementById('conversion-dropdown');
-const resultText = document.getElementById('result-text');
+// import { combineLatest, fromEvent } from "rxjs";
 
-const temperatureInputEvent$ = fromEvent(temperatureInput, 'input');
-const conversionInputEvent$ = fromEvent(conversionDropdown, 'input');
+// const temperatureInput = document.getElementById('temperature-input');
+// const conversionDropdown = document.getElementById('conversion-dropdown');
+// const resultText = document.getElementById('result-text');
 
-combineLatest([temperatureInputEvent$, conversionInputEvent$]).subscribe(
-  ([tempEvent, convEvent]) => {
-    const temp = Number(tempEvent.target.value);
-    const conv = convEvent.target.value;
+// const temperatureInputEvent$ = fromEvent(temperatureInput, 'input');
+// const conversionInputEvent$ = fromEvent(conversionDropdown, 'input');
 
-    let result: number;
+// combineLatest([temperatureInputEvent$, conversionInputEvent$]).subscribe(
+//   ([tempEvent, convEvent]) => {
+//     const temp = Number(tempEvent.target.value);
+//     const conv = convEvent.target.value;
 
-    if (conv === 'f-to-c') {
-      result = (temp - 32) * 5/9;
-    } else if (conv === 'c-to-f') {
-      result = temp * 9/5 + 32;
-    }
+//     let result: number;
 
-    resultText.innerText = String(result);
-  }
-)
+//     if (conv === 'f-to-c') {
+//       result = (temp - 32) * 5/9;
+//     } else if (conv === 'c-to-f') {
+//       result = temp * 9/5 + 32;
+//     }
+
+//     resultText.innerText = String(result);
+//   }
+// )
 
 /** FORKJOIN */
 
