@@ -1,24 +1,52 @@
 /** SECTION 5 */
 
+import { combineLatest, fromEvent } from "rxjs";
+
+/** COMBINELATEST */
+
+const temperatureInput = document.getElementById('temperature-input');
+const conversionDropdown = document.getElementById('conversion-dropdown');
+const resultText = document.getElementById('result-text');
+
+const temperatureInputEvent$ = fromEvent(temperatureInput, 'input');
+const conversionInputEvent$ = fromEvent(conversionDropdown, 'input');
+
+combineLatest([temperatureInputEvent$, conversionInputEvent$]).subscribe(
+  ([tempEvent, convEvent]) => {
+    const temp = Number(tempEvent.target.value);
+    const conv = convEvent.target.value;
+
+    let result: number;
+
+    if (conv === 'f-to-c') {
+      result = (temp - 32) * 5/9;
+    } else if (conv === 'c-to-f') {
+      result = temp * 9/5 + 32;
+    }
+
+    resultText.innerText = String(result);
+  }
+)
+
 /** FORKJOIN */
 
-import { forkJoin } from "rxjs";
-import { ajax, AjaxResponse } from "rxjs/ajax";
+// import { forkJoin } from "rxjs";
+// import { ajax, AjaxResponse } from "rxjs/ajax";
 
-const randomName$ = ajax('https://random-data-api.com/api/name/random_name');
+// const randomName$ = ajax('https://random-data-api.com/api/name/random_name');
 // const randomNation$ = ajax('https://random-data-api.com/api/nation/randomnation');
-const randomNation$ = ajax('https://random-data-api.com/api/nation/random_nation');
-const randomFood$ = ajax('https://random-data-api.com/api/food/random_food');
+// const randomNation$ = ajax('https://random-data-api.com/api/nation/random_nation');
+// const randomFood$ = ajax('https://random-data-api.com/api/food/random_food');
 
 // randomName$.subscribe(ajaxResponse => console.log(ajaxResponse.response.first_name));
 // randomNation$.subscribe(ajaxResponse => console.log(ajaxResponse.response));
 // randomFood$.subscribe(ajaxResponse => console.log(ajaxResponse.response.dish));
 
-forkJoin([randomName$, randomNation$, randomFood$]).subscribe({
-  next: ([nameRes, nationRes, foodRes]) => console.log(`${nameRes.response.first_name} is from ${nationRes.response.capital} and likes to eat ${foodRes.response.dish}`),
-  error: error => console.error(error.response.error),
-  complete: () => console.log("Completed")
-});
+// forkJoin([randomName$, randomNation$, randomFood$]).subscribe({
+//   next: ([nameRes, nationRes, foodRes]) => console.log(`${nameRes.response.first_name} is from ${nationRes.response.capital} and likes to eat ${foodRes.response.dish}`),
+//   error: error => console.error(error.response.error),
+//   complete: () => console.log("Completed")
+// });
 
 /** INTERVAL */
 
