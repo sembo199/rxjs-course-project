@@ -1,16 +1,39 @@
 /** SECTION 5 */
 
-import { Observable, of } from "rxjs";
+/** FROM */
+
+import { from } from "rxjs";
+
+from(['Alice', 'Ben', 'Charlie']).subscribe({
+  next: value => console.log(value),
+  complete: () => console.log("Completed from")
+});
+
+const somePromise = new Promise((resolve, reject) => {
+  // resolve('Resolved!');
+  reject('Rejected');
+});
+
+const observableFromPromise$ = from(somePromise);
+
+observableFromPromise$.subscribe({
+  next: value => console.log(value),
+  error: err => console.log("ERROR: " + err),
+  complete: () => console.log("Completed from Promise")
+})
+
+/** OF */
+// import { Observable, of } from "rxjs";
 
 // of('Alice', 'Ben', 'Charlie').subscribe({
 //   next: value => console.log(value),
 //   complete: () => console.log("Completed")
 // });
 
-ourOwnOf('Alice', 'Ben', 'Charlie').subscribe({
-  next: value => console.log(value),
-  complete: () => console.log("Completed Own Of")
-});
+// ourOwnOf('Alice', 'Ben', 'Charlie').subscribe({
+//   next: value => console.log(value),
+//   complete: () => console.log("Completed Own Of")
+// });
 
 // const names$ = new Observable<string>(subscriber => {
 //   subscriber.next('Alice');
@@ -24,14 +47,14 @@ ourOwnOf('Alice', 'Ben', 'Charlie').subscribe({
 //   complete: () => console.log("Completed")
 // });
 
-function ourOwnOf(...args: string[]): Observable<string> {
-  return new Observable<string>(subscriber => {
-    for(let i = 0; i < args.length; i++) {
-      subscriber.next(args[i]);
-    }
-    subscriber.complete();
-  });
-}
+// function ourOwnOf(...args: string[]): Observable<string> {
+//   return new Observable<string>(subscriber => {
+//     for(let i = 0; i < args.length; i++) {
+//       subscriber.next(args[i]);
+//     }
+//     subscriber.complete();
+//   });
+// }
 
 /** SECTION 4 */
 
