@@ -3,6 +3,7 @@
 import { Observable } from 'rxjs';
 import {ajax} from 'rxjs/ajax';
 
+// Cold event: new data for each subscription
 const ajax$ = ajax<any>('https://random-data-api.com/api/name/random_name');
 
 ajax$.subscribe(data => console.log("Sub 1: ", data.response.first_name));
