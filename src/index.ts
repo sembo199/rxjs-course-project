@@ -1,31 +1,48 @@
 /** SECTION 5 */
 
+/** FORKJOIN */
+
+import { forkJoin } from "rxjs";
+import { ajax, AjaxResponse } from "rxjs/ajax";
+
+const randomName$ = ajax('https://random-data-api.com/api/name/random_name');
+const randomNation$ = ajax('https://random-data-api.com/api/nation/random_nation');
+const randomFood$ = ajax('https://random-data-api.com/api/food/random_food');
+
+// randomName$.subscribe(ajaxResponse => console.log(ajaxResponse.response.first_name));
+// randomNation$.subscribe(ajaxResponse => console.log(ajaxResponse.response));
+// randomFood$.subscribe(ajaxResponse => console.log(ajaxResponse.response.dish));
+
+forkJoin([randomName$, randomNation$, randomFood$]).subscribe(
+  ([nameRes, nationRes, foodRes]) => console.log(`${nameRes.response.first_name} is from ${nationRes.response.capital} and likes to eat ${foodRes.response.dish}`)
+);
+
 /** INTERVAL */
 
-import { interval, Observable } from "rxjs";
+// import { interval, Observable } from "rxjs";
 
-const interval$ = new Observable<number>(subscriber => {
-  let counter = 0;
+// const interval$ = new Observable<number>(subscriber => {
+//   let counter = 0;
   
-  const intervalId = setInterval(() => {
-    console.log("Interval!");
-    subscriber.next(counter++);
-  }, 1000);
+//   const intervalId = setInterval(() => {
+//     console.log("Interval!");
+//     subscriber.next(counter++);
+//   }, 1000);
 
-  return () => {
-    clearInterval(intervalId);
-  }
-});
+//   return () => {
+//     clearInterval(intervalId);
+//   }
+// });
 
-const sub = interval$.subscribe({
-  next: value => console.log(value),
-  complete: () => console.log('Completed')
-});
+// const sub = interval$.subscribe({
+//   next: value => console.log(value),
+//   complete: () => console.log('Completed')
+// });
 
-setTimeout(() => {
-  sub.unsubscribe();
-  console.log("Unsub");
-}, 5000);
+// setTimeout(() => {
+//   sub.unsubscribe();
+//   console.log("Unsub");
+// }, 5000);
 
 /** TIMER */
 
