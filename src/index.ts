@@ -1,26 +1,58 @@
 /** SECTION 5 */
 
+/** FROMEVENT */
+
+import { fromEvent, Observable } from "rxjs";
+
+const triggerButton = document.querySelector('button#trigger');
+
+// const subscription = fromEvent<PointerEvent>(triggerButton, 'click').subscribe(event => {
+//   console.log(event.type, event.x, event.y);
+// });
+
+const triggerClick$ = new Observable(subscriber => {
+  const clickHandlerFn = (event: any) => {
+    console.log('Event callback executed');
+    subscriber.next(event);
+  };
+
+  triggerButton?.addEventListener('click', clickHandlerFn);
+
+  return () => {
+    triggerButton?.removeEventListener('click', clickHandlerFn);
+  }
+});
+
+const subscription = triggerClick$.subscribe({
+  next: event => console.log(event.type, event.x, event.y)
+});
+
+setTimeout(() => {
+  console.log("unsubscribe");
+  subscription.unsubscribe();
+}, 5000);
+
 /** FROM */
 
-import { from } from "rxjs";
+// import { from } from "rxjs";
 
-from(['Alice', 'Ben', 'Charlie']).subscribe({
-  next: value => console.log(value),
-  complete: () => console.log("Completed from")
-});
+// from(['Alice', 'Ben', 'Charlie']).subscribe({
+//   next: value => console.log(value),
+//   complete: () => console.log("Completed from")
+// });
 
-const somePromise = new Promise((resolve, reject) => {
-  // resolve('Resolved!');
-  reject('Rejected');
-});
+// const somePromise = new Promise((resolve, reject) => {
+//   // resolve('Resolved!');
+//   reject('Rejected');
+// });
 
-const observableFromPromise$ = from(somePromise);
+// const observableFromPromise$ = from(somePromise);
 
-observableFromPromise$.subscribe({
-  next: value => console.log(value),
-  error: err => console.log("ERROR: " + err),
-  complete: () => console.log("Completed from Promise")
-})
+// observableFromPromise$.subscribe({
+//   next: value => console.log(value),
+//   error: err => console.log("ERROR: " + err),
+//   complete: () => console.log("Completed from Promise")
+// })
 
 /** OF */
 // import { Observable, of } from "rxjs";
