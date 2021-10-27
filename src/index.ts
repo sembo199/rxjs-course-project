@@ -6,6 +6,7 @@ import { forkJoin } from "rxjs";
 import { ajax, AjaxResponse } from "rxjs/ajax";
 
 const randomName$ = ajax('https://random-data-api.com/api/name/random_name');
+// const randomNation$ = ajax('https://random-data-api.com/api/nation/randomnation');
 const randomNation$ = ajax('https://random-data-api.com/api/nation/random_nation');
 const randomFood$ = ajax('https://random-data-api.com/api/food/random_food');
 
@@ -13,9 +14,11 @@ const randomFood$ = ajax('https://random-data-api.com/api/food/random_food');
 // randomNation$.subscribe(ajaxResponse => console.log(ajaxResponse.response));
 // randomFood$.subscribe(ajaxResponse => console.log(ajaxResponse.response.dish));
 
-forkJoin([randomName$, randomNation$, randomFood$]).subscribe(
-  ([nameRes, nationRes, foodRes]) => console.log(`${nameRes.response.first_name} is from ${nationRes.response.capital} and likes to eat ${foodRes.response.dish}`)
-);
+forkJoin([randomName$, randomNation$, randomFood$]).subscribe({
+  next: ([nameRes, nationRes, foodRes]) => console.log(`${nameRes.response.first_name} is from ${nationRes.response.capital} and likes to eat ${foodRes.response.dish}`),
+  error: error => console.error(error.response.error),
+  complete: () => console.log("Completed")
+});
 
 /** INTERVAL */
 
