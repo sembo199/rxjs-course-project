@@ -1,20 +1,38 @@
 /** SECTION 6 */
 
-import { catchError, EMPTY, EmptyError, Observable, of, throwError } from "rxjs";
+import { concatMap, Observable, of } from "rxjs";
 
-const failingRequest = new Observable(subscriber => {
+const source$ = new Observable(sub => {
   setTimeout(() => {
-    subscriber.error(new Error('Timeout'));
-  }, 3000);
+    sub.next('A');
+  }, 2000);
+  setTimeout(() => {
+    sub.next('B');
+  }, 5000);
 });
+
 console.log("App started");
-failingRequest
+source$
   .pipe(
-    catchError(err =>{
-      return EMPTY;
-    })
+    concatMap(val => of(1, 2))
   )
-  .subscribe({next: val => console.log(val), complete: () => console.log("Completed with empty error")});
+  .subscribe(val => console.log(val));
+
+// import { catchError, EMPTY, EmptyError, Observable, of, throwError } from "rxjs";
+
+// const failingRequest = new Observable(subscriber => {
+//   setTimeout(() => {
+//     subscriber.error(new Error('Timeout'));
+//   }, 3000);
+// });
+// console.log("App started");
+// failingRequest
+//   .pipe(
+//     catchError(err =>{
+//       return EMPTY;
+//     })
+//   )
+//   .subscribe({next: val => console.log(val), complete: () => console.log("Completed with empty error")});
 
 // import { debounceTime, fromEvent, map } from "rxjs";
 
