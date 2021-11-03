@@ -1,12 +1,23 @@
 /** SECTION 6 */
 
-import { filter, map, of, tap } from "rxjs";
+import { debounceTime, fromEvent, map } from "rxjs";
 
-of(1,2,3,4,6).pipe(
-  filter(val => val > 2),
-  tap(val => console.log(val)),
-  map(val => val * 2)
-).subscribe(val => console.log(val));
+const sliderInput = document.querySelector('input#slider');
+
+fromEvent(sliderInput, 'input')
+  .pipe(
+    map(event => event.target.value + "%"),
+    debounceTime(2000)
+  )
+  .subscribe(event => console.log(event));
+
+// import { filter, map, of, tap } from "rxjs";
+
+// of(1,2,3,4,6).pipe(
+//   filter(val => val > 2),
+//   tap(val => console.log(val)),
+//   map(val => val * 2)
+// ).subscribe(val => console.log(val));
 
 // import { map, Observable } from "rxjs";
 
