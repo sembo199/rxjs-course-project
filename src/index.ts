@@ -1,15 +1,31 @@
 /** SECTION 6 */
 
-import { debounceTime, fromEvent, map } from "rxjs";
+import { catchError, EMPTY, EmptyError, Observable, of, throwError } from "rxjs";
 
-const sliderInput = document.querySelector('input#slider');
-
-fromEvent(sliderInput, 'input')
+const failingRequest = new Observable(subscriber => {
+  setTimeout(() => {
+    subscriber.error(new Error('Timeout'));
+  }, 3000);
+});
+console.log("App started");
+failingRequest
   .pipe(
-    map(event => event.target.value + "%"),
-    debounceTime(2000)
+    catchError(err =>{
+      return EMPTY;
+    })
   )
-  .subscribe(event => console.log(event));
+  .subscribe({next: val => console.log(val), complete: () => console.log("Completed with empty error")});
+
+// import { debounceTime, fromEvent, map } from "rxjs";
+
+// const sliderInput = document.querySelector('input#slider');
+
+// fromEvent(sliderInput, 'input')
+//   .pipe(
+//     map(event => event.target.value + "%"),
+//     debounceTime(2000)
+//   )
+//   .subscribe(event => console.log(event));
 
 // import { filter, map, of, tap } from "rxjs";
 
