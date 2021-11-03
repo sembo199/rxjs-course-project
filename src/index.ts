@@ -1,29 +1,37 @@
 /** SECTION 6 */
 
-import { map, Observable } from "rxjs";
+import { filter, map, of, tap } from "rxjs";
 
-const number$ = new Observable<number>(subscriber => {
-  let i = 1;
-  setTimeout(() => {
-    subscriber.next(i++);
-  }, 1000);
-  setTimeout(() => {
-    subscriber.next(i++);
-  }, 3000);
-  setTimeout(() => {
-    subscriber.next(i++);
-  }, 5000);
-  setTimeout(() => {
-    subscriber.next(i++);
-  }, 7000);
-  setTimeout(() => {
-    subscriber.next(i++);
-  }, 9000);
-});
+of(1,2,3,4,6).pipe(
+  filter(val => val > 2),
+  tap(val => console.log(val)),
+  map(val => val * 2)
+).subscribe(val => console.log(val));
 
-number$.subscribe(val => console.log(val));
-const exponent$ = number$.pipe(map(val => val ** 2));
-exponent$.subscribe(val => console.log(val));
+// import { map, Observable } from "rxjs";
+
+// const number$ = new Observable<number>(subscriber => {
+//   let i = 1;
+//   setTimeout(() => {
+//     subscriber.next(i++);
+//   }, 1000);
+//   setTimeout(() => {
+//     subscriber.next(i++);
+//   }, 3000);
+//   setTimeout(() => {
+//     subscriber.next(i++);
+//   }, 5000);
+//   setTimeout(() => {
+//     subscriber.next(i++);
+//   }, 7000);
+//   setTimeout(() => {
+//     subscriber.next(i++);
+//   }, 9000);
+// });
+
+// number$.subscribe(val => console.log(val));
+// const exponent$ = number$.pipe(map(val => val ** 2));
+// exponent$.subscribe(val => console.log(val));
 
 // import { filter, Observable } from "rxjs";
 
