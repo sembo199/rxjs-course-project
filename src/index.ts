@@ -1,33 +1,58 @@
 /** SECTION 6 */
 
-import { filter, Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 
-interface NewsItem {
-  category: 'Business' | 'Sports';
-  content: string;
-}
-
-const newsFeed$ = new Observable<NewsItem>(subscriber => {
+const number$ = new Observable<number>(subscriber => {
+  let i = 1;
   setTimeout(() => {
-    subscriber.next({category: 'Business', content: 'A'})
+    subscriber.next(i++);
   }, 1000);
   setTimeout(() => {
-    subscriber.next({category: 'Sports', content: 'B'})
-  }, 2000);
-  setTimeout(() => {
-    subscriber.next({category: 'Business', content: 'C'})
+    subscriber.next(i++);
   }, 3000);
   setTimeout(() => {
-    subscriber.next({category: 'Sports', content: 'D'})
-  }, 4000);
-  setTimeout(() => {
-    subscriber.next({category: 'Business', content: 'E'})
+    subscriber.next(i++);
   }, 5000);
+  setTimeout(() => {
+    subscriber.next(i++);
+  }, 7000);
+  setTimeout(() => {
+    subscriber.next(i++);
+  }, 9000);
 });
 
-// newsFeed$.pipe(filter(newsItem => newsItem.category === 'Sports')).subscribe( newsItem => console.log(newsItem) );
-const sportsNewsFeed$ = newsFeed$.pipe(filter(newsItem => newsItem.category === 'Sports'));
-sportsNewsFeed$.subscribe( newsItem => console.log(newsItem) );
+number$.subscribe(val => console.log(val));
+const exponent$ = number$.pipe(map(val => val ** 2));
+exponent$.subscribe(val => console.log(val));
+
+// import { filter, Observable } from "rxjs";
+
+// interface NewsItem {
+//   category: 'Business' | 'Sports';
+//   content: string;
+// }
+
+// const newsFeed$ = new Observable<NewsItem>(subscriber => {
+//   setTimeout(() => {
+//     subscriber.next({category: 'Business', content: 'A'})
+//   }, 1000);
+//   setTimeout(() => {
+//     subscriber.next({category: 'Sports', content: 'B'})
+//   }, 2000);
+//   setTimeout(() => {
+//     subscriber.next({category: 'Business', content: 'C'})
+//   }, 3000);
+//   setTimeout(() => {
+//     subscriber.next({category: 'Sports', content: 'D'})
+//   }, 4000);
+//   setTimeout(() => {
+//     subscriber.next({category: 'Business', content: 'E'})
+//   }, 5000);
+// });
+
+// // newsFeed$.pipe(filter(newsItem => newsItem.category === 'Sports')).subscribe( newsItem => console.log(newsItem) );
+// const sportsNewsFeed$ = newsFeed$.pipe(filter(newsItem => newsItem.category === 'Sports'));
+// sportsNewsFeed$.subscribe( newsItem => console.log(newsItem) );
 
 
 /** SECTION 5 */
