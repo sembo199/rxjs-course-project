@@ -1,22 +1,34 @@
 /** SECTION 6 */
 
-import { concatMap, Observable, of } from "rxjs";
+import { concatMap, fromEvent, map } from "rxjs";
+import { ajax } from 'rxjs/ajax';
 
-const source$ = new Observable(sub => {
-  setTimeout(() => {
-    sub.next('A');
-  }, 2000);
-  setTimeout(() => {
-    sub.next('B');
-  }, 5000);
-});
+const endpointInput: HTMLInputElement | null = document.querySelector('input#endpoint');
+const fetchButton = document.querySelector('button#fetch');
 
-console.log("App started");
-source$
-  .pipe(
-    concatMap(val => of(1, 2))
-  )
-  .subscribe(val => console.log(val));
+fromEvent(fetchButton, 'click').pipe(
+  map(event => endpointInput.value),
+  concatMap(value => ajax(`https://random-data-api.com/api/${value}/random_${value}`)),
+  map(val => val.response)
+).subscribe(val => console.log(val));
+
+// import { concatMap, Observable, of } from "rxjs";
+
+// const source$ = new Observable(sub => {
+//   setTimeout(() => {
+//     sub.next('A');
+//   }, 2000);
+//   setTimeout(() => {
+//     sub.next('B');
+//   }, 5000);
+// });
+
+// console.log("App started");
+// source$
+//   .pipe(
+//     concatMap(val => of(1, 2))
+//   )
+//   .subscribe(val => console.log(val));
 
 // import { catchError, EMPTY, EmptyError, Observable, of, throwError } from "rxjs";
 
