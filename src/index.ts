@@ -1,21 +1,27 @@
+/** SECTION 7 */
+
+const emitButton = document.querySelector('button#emit');
+const inputElement: HTMLInputElement = document.querySelector('#value-input');
+const subscribeButton = document.querySelector('button#subscribe');
+
 /** SECTION 6 */
 
-import { catchError, concatMap, EMPTY, fromEvent, map } from "rxjs";
-import { ajax } from 'rxjs/ajax';
+// import { catchError, concatMap, EMPTY, fromEvent, map } from "rxjs";
+// import { ajax } from 'rxjs/ajax';
 
-const endpointInput: HTMLInputElement | null = document.querySelector('input#endpoint');
-const fetchButton = document.querySelector('button#fetch');
+// const endpointInput: HTMLInputElement | null = document.querySelector('input#endpoint');
+// const fetchButton = document.querySelector('button#fetch');
 
-fromEvent(fetchButton, 'click').pipe(
-  map(event => endpointInput.value),
-  concatMap(value => ajax(`https://random-data-api.com/api/${value}/random_${value}`).pipe(
-    catchError(err => EMPTY)
-  )),
-).subscribe({
-  next: val => console.log(val),
-  error: err => console.log(err),
-  complete: () => console.log("Completed")
-});
+// fromEvent(fetchButton, 'click').pipe(
+//   map(event => endpointInput.value),
+//   concatMap(value => ajax(`https://random-data-api.com/api/${value}/random_${value}`).pipe(
+//     catchError(err => EMPTY)
+//   )),
+// ).subscribe({
+//   next: val => console.log(val),
+//   error: err => console.log(err),
+//   complete: () => console.log("Completed")
+// });
 
 // import { concatMap, Observable, of } from "rxjs";
 
