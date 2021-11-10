@@ -1,23 +1,58 @@
 /** SECTION 7 */
 
-import { fromEvent, map, Subject } from "rxjs";
+import { BehaviorSubject, fromEvent, Subject, withLatestFrom } from "rxjs";
 
-const emitButton = document.querySelector('button#emit');
-const inputElement: HTMLInputElement = document.querySelector('#value-input');
-const subscribeButton = document.querySelector('button#subscribe');
+/** BEHAVIOR SUBJECT */
 
-const value$ = new Subject<string>();
+const loggedInSpan: HTMLElement = document.querySelector('span#logged-in');
+const loginButton: HTMLElement = document.querySelector('button#login');
+const logoutButton: HTMLElement = document.querySelector('button#logout');
+const printStateButton: HTMLElement = document.querySelector('button#print-state');
 
-fromEvent(emitButton, 'click').pipe(
-  map(() => inputElement.value)
-).subscribe(value$);
+const isLoggedIn$ = new BehaviorSubject<boolean>(false);
 
-fromEvent(subscribeButton, 'click').subscribe(
-  () => {
-    console.log("New Subscription");
-    value$.subscribe(val => console.log(val));
+fromEvent(loginButton, 'click').subscribe(() => isLoggedIn$.next(true));
+fromEvent(logoutButton, 'click').subscribe(() => isLoggedIn$.next(false));
+
+// Navigation bar
+isLoggedIn$.subscribe(isLoggedIn => {
+  loggedInSpan.innerText = isLoggedIn.toString();
+});
+
+// Buttons
+isLoggedIn$.subscribe(isLoggedIn => {
+  logoutButton.style.display = isLoggedIn ? 'block' : 'none';
+  loginButton.style.display = !isLoggedIn ? 'block' : 'none';
+})
+
+fromEvent(printStateButton, 'click').pipe(
+  withLatestFrom(isLoggedIn$)
+).subscribe(
+  ([event, isLoggedIn]) => {
+    console.log("User is logged in: ", isLoggedIn);
   }
-)
+);
+
+/** SUBJECT */
+
+// import { fromEvent, map, Subject } from "rxjs";
+
+// const emitButton = document.querySelector('button#emit');
+// const inputElement: HTMLInputElement = document.querySelector('#value-input');
+// const subscribeButton = document.querySelector('button#subscribe');
+
+// const value$ = new Subject<string>();
+
+// fromEvent(emitButton, 'click').pipe(
+//   map(() => inputElement.value)
+// ).subscribe(value$);
+
+// fromEvent(subscribeButton, 'click').subscribe(
+//   () => {
+//     console.log("New Subscription");
+//     value$.subscribe(val => console.log(val));
+//   }
+// )
 
 /** SECTION 6 */
 
