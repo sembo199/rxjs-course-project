@@ -8,12 +8,13 @@ const fetchButton = document.querySelector('button#fetch');
 
 fromEvent(fetchButton, 'click').pipe(
   map(event => endpointInput.value),
-  concatMap(value => ajax(`https://random-data-api.com/api/${value}/random_${value}`)),
-  catchError(err => EMPTY)
+  concatMap(value => ajax(`https://random-data-api.com/api/${value}/random_${value}`).pipe(
+    catchError(err => EMPTY)
+  )),
 ).subscribe({
   next: val => console.log(val),
   error: err => console.log(err),
-  complete: () => console.log("COmpleted")
+  complete: () => console.log("Completed")
 });
 
 // import { concatMap, Observable, of } from "rxjs";
